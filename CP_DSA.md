@@ -1,5 +1,7 @@
 # <a href="https://www.leetcode.com">LeetCode</a>
-### Recursion -> <a href="https://leetcode.com/tag/recursion/">Solve</a> (1 / 44)
+### Recursion -> <a href="https://leetcode.com/tag/recursion/">Solve</a> (6 / 44)
+
+Currently Doing => <a href="https://leetcode.com/problems/remove-linked-list-elements/">Remove Linked List Elements</a>
 <hr>
 
 ## Dynamic Programming
