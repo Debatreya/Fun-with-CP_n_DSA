@@ -1,0 +1,27 @@
+# COIN CHANGE 2
+
+## Recursion (AI search: dfs)
+class Solution {
+private:
+    int count(int initial, int parent, int goal, vector<int> & coins){
+        if(initial == goal){
+            return 1;
+        }
+        if(initial > goal){
+            return 0;
+        }
+        int sum = 0;
+        for(int i : coins){
+            if(i <= parent){
+                sum+=count(initial+i, i, goal, coins);
+            }
+        }
+        return sum;
+    }note
+public:
+    int change(int amount, vector<int>& coins) {
+        return count(0, 5000, amount, coins);
+    }
+};
+
+## Memoization:

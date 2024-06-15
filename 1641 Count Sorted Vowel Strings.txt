@@ -1,0 +1,76 @@
+##Recursive solution:
+class Solution {
+private:
+    int f(int n, int start){
+        if(n == 1){
+            return 5-start;
+        }
+        int count = 0;
+        for(int i = start; i<5; i++){
+            count+=f(n-1, i);
+        }
+        return count;
+    }
+public:
+    int countVowelStrings(int n) {
+        return f(n, 0);
+    }
+};
+
+##Recursive Memoization Solution / top-down:
+class Solution {
+private:
+    int f(int n, int start, vector<vector<int>> &dp){
+        if(n == 1){
+            dp[n][start] = 5 - start;
+            return dp[n][start];
+        }
+        int count = 0;
+        for(int i = start; i<5; i++){
+            if(dp[n-1][i] != -1){
+                count += dp[n-1][i];
+            }
+            else{
+                dp[n-1][i]=f(n-1, i, dp);
+                count+=dp[n-1][i];
+            }
+        }
+        return count;
+    }
+public:
+    int countVowelStrings(int n) {
+        vector<vector<int>> dp(n+1, vector<int> (5, -1));
+        dp[n][0] = f(n, 0, dp);
+        return dp[n][0];
+    }
+};
+
+## Iterative Solution / Tabulation / Bottom - up SOLUTION: 
+class Solution {
+private:
+public:
+    int countVowelStrings(int n) {
+        vector<vector<int>> dp(n+1, vector<int> (5, -1));
+        for(int i = 1; i<=n; i++){
+            if(i==1){
+                for(int j = 0; j<5; j++){
+                    dp[i][j] = 5-j;
+                }
+            }
+            else{
+                dp[i][4] = 1;
+                for(int j = 3; j>=0; j--){
+                    dp[i][j] = dp[i][j+1] + dp[i-1][j];
+                }
+            }
+
+        }
+        for(vector<int> v: dp){
+            for(int i: v){
+                cout<<i<<" ";
+            }
+            cout<<endl;
+        }
+        return dp[n][0];
+    }
+};
