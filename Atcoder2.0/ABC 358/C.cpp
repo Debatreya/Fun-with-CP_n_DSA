@@ -1,8 +1,19 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-bool comp(vector<int> &a, vector<int> &b){
-    return a.back() > b.back();
+int f(int idx, int m, vector<vector<int>> &mat, vector<int> complete, int rowCount = 0){
+    if(idx<0){
+        if(accumulate(complete.begin(), complete.end(), 0) == m) return rowCount;
+        return INT_MAX;
+    }
+    int dontTake = f(idx-1, m, mat, complete, rowCount);
+    for(int i = 0; i<m; i++){
+        if(mat[idx][i] == 1 && complete[i] == 0){
+            complete[i] = 1;
+        }
+    }
+    int take = f(idx-1, m, mat, complete, rowCount+1);
+    return min(take, dontTake);
 }
 
 void solve(){
@@ -16,38 +27,17 @@ void solve(){
             char ch;
             cin >> ch;
             if (ch == 'o') {
-                mat[i][j] = 'o'; // Store as int representation of 'o'
+                mat[i][j] = 1;
                 count++;
             } else {
-                mat[i][j] = ch; // Store as int representation of character
+                mat[i][j] = -1;
             }
         }
         mat[i][m] = count;
     }
-    sort(mat.begin(), mat.end(), comp);
-
-    // Check minmimum number of rows required so that all m 'o's are covered
-    vector<pair<int, int>> v;
-    vector<int> covered(m, 0);
-    for (int i = 0; i < n; i++) {
-        int changes = 0;
-        for(int j = 0; j<m; j++){
-            if(mat[i][j] == 'o' && covered[j] == 0){
-                covered[j] = 1;
-                changes++;
-            }
-        }
-        if(changes > 0){
-            if(v.size() > 0 and v[v.size() - 1].second < changes){
-                v.pop_back();
-            }
-            v.push_back({i, changes});
-        }
-        if(accumulate(covered.begin(), covered.end(), 0) == m){
-            break;
-        }
-    }
-    cout<<v.size()<<endl;
+    vector<int> complete(m, 0);
+    int minShops = f(n-1, m, mat, complete);
+    cout<<minShops<<endl;
 }
 
 int main(){
