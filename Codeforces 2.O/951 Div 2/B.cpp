@@ -1,70 +1,42 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-string intToBinaryString(int num) {
-    string binary = "";
-    while (num > 0) {
-        binary = (num % 2 == 0 ? "0" : "1") + binary;
-        num /= 2;
-    }
-    reverse(binary.begin(), binary.end());
-    return binary.empty() ? "0" : binary;
+vector<int> f(int n){
+  vector<int> v;
+  while(n){
+    v.push_back(n%2);
+    n/=2;
+  }
+  return v;
 }
 
-int findMaxConsecutiveZeros(int a, int b) {
-
-    string aString = intToBinaryString(a);
-    string bString = intToBinaryString(b);
-
-    // cout<<aString<<" "<<bString<<" ";
-
-    int aLen = aString.length();
-    int bLen = bString.length();
-
-    // cout<<aLen<<" "<<bLen<<" ";
-
-    int n = min(aLen, bLen);
-    int m = max(aLen, bLen);
-
-    // cout<<m<<" "<<n<<" "<<endl;
-
-    int maxLength = 0;
-    int currentLength = 0;
-    int i = 0;
-    for(i = 0; i<n; i++){
-      if (aString[i] == bString[i]) {
-            currentLength++;
-            maxLength = max(maxLength, currentLength);
-        } else {
-            currentLength = 0;
-        }
-    }
-    while(i < m and m == bLen and bString[i] == '0'){
-      currentLength++;
-      maxLength = max(maxLength, currentLength);
-      i++;
-    }
-    while(i < m and m == aLen and aString[i] == '0'){
-      currentLength++;
-      maxLength = max(maxLength, currentLength);
-      i++;
-    }
-    // cout<<i<<" ";
-  return maxLength;
-}
-
-void solve() {
+void solve(){
   int a, b;
   cin>>a>>b;
-  long long n = findMaxConsecutiveZeros(a, b);
-  // cout<<n<<" ";
-  long long ans = pow(2, n);
+  if( a == 0 or b == 0){
+
+  }
+  vector<int> bin_a = f(a), bin_b = f(b);
+  int size_a = bin_a.size(), size_b = bin_b.size();
+  if(size_a<size_b){
+    bin_a.resize(size_b);
+  }
+  else{
+    bin_b.resize(size_a);
+  }
+  int size = bin_a.size();
+  int len = 0;
+  while(len<size and bin_a[len] == bin_b[len]){
+    len++;
+  }
+  // cout<<len<<endl;
+  long long int ans = pow(2, len);
   cout<<ans<<endl;
 }
-int main() {
+int main(){
   int t = 1;
-  cin >> t;
-  while (t--) {
+  cin>>t;
+  while(t--){
     solve();
   }
   return 0;
